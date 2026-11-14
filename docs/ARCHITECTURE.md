@@ -83,7 +83,7 @@ interface StorageBackend {
   stat(path): Promise<{ type, size, mtime }>
 }
 ```
-Errores normalizados (`NotFound`, `AlreadyExists`, `PermissionDenied`, `InvalidPath`, `Unsupported`, `Io`) para que la UI no dependa de códigos de Capacitor (`OS-PLUG-FILE-xxxx`).
+Errores normalizados (`NotFoundError`, `AlreadyExistsError`, `PermissionDeniedError`, `InvalidPathError`, `UnsupportedError`, `IoError`; códigos `NOT_FOUND`… en `src/storage/errors.js`; contrato y semántica en `src/storage/StorageBackend.js`) para que la UI no dependa de códigos de Capacitor (`OS-PLUG-FILE-xxxx`).
 `FileOperations` añade utilidades sobre el contrato (copia recursiva, borrado recursivo en backends sin soporte, escritura atómica `*.tmp` → rename). `ProjectStorage` sabe la estructura `Proyectos/<n>/{project.json,scenes,scripts,assets,animations,settings}`.
 
 Un **conjunto de pruebas de contrato común** se ejecuta contra cada backend (Memory, IDB, FSA con Playwright; Android en dispositivo).

@@ -21,13 +21,14 @@ Estados: Pendiente · En desarrollo · Implementada, sin verificar · Implementa
 | FND-002 | Vendorizar Phaser 4.2.1 | **Implementada y probada** (30/30 pruebas; copia byte a byte idéntica al original; detecta alteración, ficheros extra y faltantes) |
 | FND-003 | Build web con Vite | **Implementada, sin verificar**: archivos y página probados en Chromium (estático); `vite build` NO ejecutado (sin red) |
 | FND-004 | Phaser arranca en la página | **Implementada y probada** (Chromium: «Phaser 4.2.1 · WebGL», lienzo 1280×720, sin errores; falla si Phaser no carga) |
+| STO-001 | Contrato `StorageBackend` y errores normalizados | **Implementada y probada** (44/44; solo lógica pura, sin ningún backend real todavía) |
 
 ## Producto
 
 | Fase | Estado |
 |---|---|
 | F0 Cimientos / APK mínimo | En desarrollo (4/9: FND-001, FND-002, FND-004; FND-003 sin verificar) |
-| F1 Almacenamiento | Pendiente |
+| F1 Almacenamiento | En desarrollo (1/13: STO-001) |
 | F2 Proyectos | Pendiente |
 | F3 Núcleo | Pendiente |
 | F4 Escenas/Viewport | Pendiente |

@@ -18,18 +18,19 @@
 - Arquitectura: ver `docs/ARCHITECTURE.md` (capas platform → storage → core → projects/viewport/runtime → editor → ui).
 
 ## B. Estado actual
-- **Implementado**: esqueleto (FND-001) y Phaser 4.2.1 vendorizado y verificable (FND-002): carpetas, `package.json` sin dependencias, `README.md`, prueba de estructura. Ningún sistema del producto. Documentación y `tools/audit/phaser-smoke.js`.
+- **Implementado**: contrato de almacenamiento sin backends (STO-001), esqueleto (FND-001) y Phaser 4.2.1 vendorizado y verificable (FND-002): carpetas, `package.json` sin dependencias, `README.md`, prueba de estructura. Ningún sistema del producto. Documentación y `tools/audit/phaser-smoke.js`.
 - **Incompleto**: —
 - **Pendiente**: todo (ver ROADMAP).
 - **Estado real**: fase de auditoría y planificación terminada; falta aprobación de decisiones D-002 y D-003 para arrancar F0.
 
 ## C. Progreso de tareas
-- Implementada sin verificar: FND-003. Terminadas: FND-001, FND-002, FND-004, AUD-001, AUD-002 (probadas); AUD-003, DOC-001, PLAN-001 (sin verificar por humano).
+- Implementada sin verificar: FND-003. Terminadas: FND-001, FND-002, FND-004, STO-001, AUD-001, AUD-002 (probadas); AUD-003, DOC-001, PLAN-001 (sin verificar por humano).
 - En desarrollo: ninguna.
 - Pendientes: F0 (FND-003…CI-004), F1…F8 (ver ROADMAP).
 - Bloqueadas: AUD-004 (no se recibió el «bundle minificado existente»).
 
-## D. Última sesión (2): FND-001 a FND-004
+## D. Última sesión (2): FND-001 a FND-004 y STO-001
+- STO-001: `src/storage/errors.js` (StorageError + 6 subclases, `ErrorCodes`, `isStorageError`), `src/storage/StorageBackend.js` (`BACKEND_METHODS`, clase base cuyas operaciones lanzan `UnsupportedError`, `missingBackendMethods`, semántica documentada en comentarios), `tests/unit/storage-contract.test.js`. 44/44 OK. Decisión: se tomó la «alternativa sin red» porque CI-001 sigue bloqueada (D-003 sin confirmar, sin red).
 - FND-004: `src/boot/phaserBoot.js` (Game AUTO, escena `boot`, texto con versión y renderer; usa el global `window.Phaser`), `src/main.js` publica `window.__nebulon` = `{status:'ready'|'error'|'loading', version, renderer, label}`. Probado en Chromium (T-FND-004). Se añadió `SIGUIENTE_PASO.md` (guía para el usuario) y se entregó un zip del proyecto.
 - FND-003 (D-002 aprobada por el usuario): `package.json` (devDependency `vite ^7.0.0`; scripts `dev`, `build`, `preview`, `test`, `test:browser`), `vite.config.js` (`base './'`, `outDir www`), `index.html`, `src/main.js`, `tools/copy-vendor.js` (verifica y copia Phaser a `public/vendor/`, gitignored), `tests/browser/static-smoke.mjs`. Probado: 32/32 unitarias; Chromium carga la página sin errores (sin Vite). **No probado: `vite build`** (KI-009).
 - FND-002: `vendor/phaser/4.2.1/{phaser.min.js,LICENSE.md,types/}` (9,1 MB, copia byte a byte), `vendor/phaser/CHECKSUMS.txt`, `tools/verify-vendor.js` (exporta `verify(root)`; CLI sale 1 si hay discrepancias), `tests/unit/vendor.test.js`. Pruebas: 30/30 OK, alteración detectada. No se tocó ningún fichero de Phaser. Solo se vendoriza el UMD completo (con Matter); la variante arcade-only queda como optimización futura.
@@ -59,6 +60,6 @@ El zip original (SHA-256 `3381e1eb…139da`) es la copia intacta; **no está en 
 Ver `docs/KNOWN_ISSUES.md` (KI-001…KI-008). Decisiones pendientes: D-002 (Vite), D-003 (`appId`), D-008 (estrategia de almacenamiento Android, depende de prueba en teléfono).
 
 ## G. Próxima tarea
-- **Pendiente de cierre (usuario)**: ejecutar `npm install && npm run build` con red, comprobar `www/`, subir `package-lock.json` (KI-009). Ver `SIGUIENTE_PASO.md`.
-- **Siguiente tarea propuesta**: CI-001 — Capacitor 8 en el proyecto. Bloqueada hasta que el usuario confirme D-003 (`appId`) y haya red para instalar `@capacitor/core|cli|android|filesystem` (fijar 8.x). Archivos: `package.json`, `capacitor.config.json`. Criterios: `npx cap --version` = 8.x, `npm ci` limpio. Prueba: en CI o en la máquina del usuario.
-- **Alternativa sin red ni bloqueo**: STO-001 — contrato `StorageBackend` y errores normalizados (`src/storage/`), con `node --test` (ver ARCHITECTURE §4).
+- **Pendiente de cierre (usuario)**: `npm install && npm run build` con red, comprobar `www/`, subir `package-lock.json` (KI-009). Ver `SIGUIENTE_PASO.md`.
+- **Siguiente tarea propuesta**: STO-002 — utilidades de rutas (`normalize`, `join`, `parent`, `basename`, validación anti `..`, rutas absolutas, caracteres inválidos, vacías) en `src/storage/paths.js`, lanzando `InvalidPathError`. Criterios: todos los casos de borde probados (incluye `\`, `//`, `./`, `a/../b`, nombres con espacios y Unicode). Pruebas: `node --test`.
+- Siguen disponibles sin red: STO-003 (MemoryBackend) y STO-004 (suite de contrato). **CI-001** sigue bloqueada por D-003 y red.

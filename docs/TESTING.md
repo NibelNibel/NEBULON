@@ -17,6 +17,7 @@
 | T-FND-003a | 2026-11-13 | `index.html` + `src/main.js` + Phaser copiado: carga en Chromium sin errores/avisos de consola, 0 respuestas ≥400, `Phaser.VERSION==='4.2.1'`. Sirve estático, **sin Vite** | `NODE_PATH=$(npm root -g) npm run test:browser` | **OK**; sin `src/main.js` → FALLA (comprobado) |
 | T-FND-003b | 2026-11-13 | `npm run build` (vite build) genera `www/` con index, JS y `vendor/phaser/phaser.min.js`; rutas relativas | `npm install && npm run build` | **NO EJECUTADA** (sin red). Verificar en CI o en máquina del usuario |
 | T-FND-004 | 2026-11-13 | Phaser.Game arranca; `__nebulon.status==='ready'`, label «Phaser 4.2.1 · WebGL», canvas>0, captura no vacía, sin errores/avisos de app | `NODE_PATH=$(npm root -g) npm run test:browser` | **OK**; con ruta de Phaser rota → exit 1. Nota: se ignoran los «GL Driver Message» de SwiftShader (rendimiento del GL por software). Solo Chromium headless, **no** WebView Android |
+| T-STO-001 | 2026-11-13 | 6 clases de error (código estable, herencia, `path`, `cause`), contrato de 10 operaciones, clase base que lanza `UnsupportedError`, detección de métodos ausentes | `npm test` (`tests/unit/storage-contract.test.js`) | **OK** 44/44 (acumulado). No prueba ningún backend real |
 | T-AUD-003 | 2026-11-13 | Tests propios de Phaser (`vitest`) | — | **NO EJECUTADA** (sin red para instalar dependencias; no es necesaria para integrar el dist) |
 
 ## Plantilla de prueba manual Android (se rellenará en CI-003/CI-004)

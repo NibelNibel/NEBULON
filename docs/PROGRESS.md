@@ -23,13 +23,14 @@ Estados: Pendiente · En desarrollo · Implementada, sin verificar · Implementa
 | FND-004 | Phaser arranca en la página | **Implementada y probada** (Chromium: «Phaser 4.2.1 · WebGL», lienzo 1280×720, sin errores; falla si Phaser no carga) |
 | STO-001 | Contrato `StorageBackend` y errores normalizados | **Implementada y probada** (44/44; solo lógica pura, sin ningún backend real todavía) |
 | STO-002 | Utilidades de rutas | **Implementada y probada** (58/58; las pruebas detectaron un fallo real en `join`, corregido) |
+| STO-003 | `MemoryBackend` (solo pruebas) | **Implementada y probada** (71/71; 2 de 3 mutaciones detectadas, la 3.ª es equivalente) |
 
 ## Producto
 
 | Fase | Estado |
 |---|---|
 | F0 Cimientos / APK mínimo | En desarrollo (4/9: FND-001, FND-002, FND-004; FND-003 sin verificar) |
-| F1 Almacenamiento | En desarrollo (2/13: STO-001, STO-002) |
+| F1 Almacenamiento | En desarrollo (3/13: STO-001, STO-002, STO-003) |
 | F2 Proyectos | Pendiente |
 | F3 Núcleo | Pendiente |
 | F4 Escenas/Viewport | Pendiente |

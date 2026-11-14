@@ -24,8 +24,13 @@ export const BACKEND_METHODS = Object.freeze([
  *  - writeFile: crea directorios padre; reemplaza si existe.
  *  - readFile: NotFoundError si no existe.
  *  - listDirectory: no recursivo; NotFoundError si no existe.
- *  - rename/copy: AlreadyExistsError si el destino existe; copy admite directorios.
- *  - delete: NotFoundError si no existe; directorio no vacío requiere {recursive: true}.
+ *  - rename/copy: NotFoundError si el origen o el DIRECTORIO PADRE del destino no existen (no crean padres);
+ *    AlreadyExistsError si el destino existe; InvalidPathError si se mueve/copia la raíz o un directorio
+ *    dentro de sí mismo; copy admite directorios (copia profunda).
+ *  - delete: NotFoundError si no existe; InvalidPathError para la raíz; un directorio no vacío requiere
+ *    {recursive: true} (si no, IoError).
+ *  - readFile 'utf8' sobre bytes no UTF-8 y operaciones de fichero sobre directorios (o al revés): IoError.
+ *  - Un fichero usado como directorio intermedio: en lecturas ⇒ NotFoundError; en escrituras ⇒ AlreadyExistsError.
  *  - exists: nunca lanza por inexistencia; devuelve false.
  */
 export class StorageBackend {

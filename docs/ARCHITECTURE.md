@@ -84,7 +84,7 @@ interface StorageBackend {
 }
 ```
 Errores normalizados (`NotFoundError`, `AlreadyExistsError`, `PermissionDeniedError`, `InvalidPathError`, `UnsupportedError`, `IoError`; códigos `NOT_FOUND`… en `src/storage/errors.js`; contrato y semántica en `src/storage/StorageBackend.js`) para que la UI no dependa de códigos de Capacitor (`OS-PLUG-FILE-xxxx`).
-`FileOperations` añade utilidades sobre el contrato (copia recursiva, borrado recursivo en backends sin soporte, escritura atómica `*.tmp` → rename). `ProjectStorage` sabe la estructura `Proyectos/<n>/{project.json,scenes,scripts,assets,animations,settings}`.
+`FileOperations` (`src/storage/FileOperations.js`, STO-005) añade utilidades sobre el contrato: `copyTree`, `deleteTree`, `writeFileAtomic` (temporal `.nebulon-tmp-<id>` + copia `.nebulon-bak-<id>` + rename) y `recoverAtomicWrites` (ver KI-010 sobre los límites de la atomicidad). `ProjectStorage` sabe la estructura `Proyectos/<n>/{project.json,scenes,scripts,assets,animations,settings}`.
 
 `MemoryBackend` (`src/storage/MemoryBackend.js`) es la implementación de referencia de la semántica; las reglas de `rename/copy/delete` están en los comentarios de `StorageBackend.js`.
 

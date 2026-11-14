@@ -30,13 +30,14 @@ Estados: Pendiente · En desarrollo · Implementada, sin verificar · Implementa
 | ID | Tarea | Estado |
 |---|---|---|
 | STO-004 | Suite de contrato reutilizable | **Implementada y probada** (88/88 unitarias; suite de 11 casos ejecutada también en Chromium; 13 mutantes detectados, cada uno en los casos esperados; sin casos duplicados con el test de Memory) |
+| STO-005 | `FileOperations` (copia/borrado recursivos, escritura atómica, recuperación) | **Implementada y probada** (98/98; inyección de fallos en cada punto; 5/5 mutaciones detectadas). Atomicidad real depende del `rename` del backend (KI-010) |
 
 ## Producto
 
 | Fase | Estado |
 |---|---|
 | F0 Cimientos / APK mínimo | En desarrollo (4/9: FND-001, FND-002, FND-004; FND-003 sin verificar) |
-| F1 Almacenamiento | En desarrollo (4/13: STO-001, STO-002, STO-003, STO-004) |
+| F1 Almacenamiento | En desarrollo (5/13: STO-001…STO-005) |
 | F2 Proyectos | Pendiente |
 | F3 Núcleo | Pendiente |
 | F4 Escenas/Viewport | Pendiente |

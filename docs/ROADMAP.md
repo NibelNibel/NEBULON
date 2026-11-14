@@ -86,7 +86,7 @@ Formato de cada tarea detallada: ID · Nombre · Objetivo · Dependencias · Arc
 | STO-002 | ✅ Utilidades de rutas (implementada y probada) | STO-001 | 100% de casos de borde probados |
 | STO-003 | ✅ `MemoryBackend` (solo pruebas; implementada y probada con tests propios) | STO-001,002 | Pasa la suite de contrato (STO-004 la extraerá y reutilizará) |
 | STO-004 | ✅ Suite de contrato reutilizable (implementada y probada) | STO-003 | Se ejecuta contra cualquier backend (Node y navegador); mutantes detectados |
-| STO-005 | `FileOperations` (copia/borrado recursivo, escritura atómica) | STO-004 | Probado sobre Memory |
+| STO-005 | ✅ `FileOperations` (copia/borrado recursivo, escritura atómica, recuperación) (implementada y probada) | STO-004 | Probado sobre Memory y con inyección de fallos |
 | STO-006 | `BrowserIdbBackend` | STO-004 | Pasa contrato en Chromium (Playwright); sobrevive recarga |
 | STO-007 | `BrowserFsaBackend` (showDirectoryPicker, handle persistido) | STO-004 | Pasa contrato en Chromium; permiso re-solicitable |
 | STO-008 | `AndroidDocumentsBackend` (Filesystem, DOCUMENTS, recursive) | STO-004, CI-004 | Pasa contrato **en teléfono** |

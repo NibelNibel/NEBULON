@@ -20,12 +20,13 @@ Estados: Pendiente · En desarrollo · Implementada, sin verificar · Implementa
 | FND-001 | Esqueleto del repositorio | **Implementada y probada** (26/26 pruebas; fallo verificado al quitar un directorio) |
 | FND-002 | Vendorizar Phaser 4.2.1 | **Implementada y probada** (30/30 pruebas; copia byte a byte idéntica al original; detecta alteración, ficheros extra y faltantes) |
 | FND-003 | Build web con Vite | **Implementada, sin verificar**: archivos y página probados en Chromium (estático); `vite build` NO ejecutado (sin red) |
+| FND-004 | Phaser arranca en la página | **Implementada y probada** (Chromium: «Phaser 4.2.1 · WebGL», lienzo 1280×720, sin errores; falla si Phaser no carga) |
 
 ## Producto
 
 | Fase | Estado |
 |---|---|
-| F0 Cimientos / APK mínimo | En desarrollo (3/9: FND-001, FND-002, FND-003 sin verificar) |
+| F0 Cimientos / APK mínimo | En desarrollo (4/9: FND-001, FND-002, FND-004; FND-003 sin verificar) |
 | F1 Almacenamiento | Pendiente |
 | F2 Proyectos | Pendiente |
 | F3 Núcleo | Pendiente |

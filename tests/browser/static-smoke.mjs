@@ -26,18 +26,24 @@ const server = http.createServer((req, res) => {
 }).listen(0);
 
 const port = server.address().port;
-const browser = await chromium.launch();
+const browser = await chromium.launch({ args: ['--use-gl=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
 const page = await browser.newPage();
 const problems = [];
-page.on('console', (m) => { if (['error', 'warning'].includes(m.type())) problems.push(`${m.type()}: ${m.text()}`); });
+// Los 'GL Driver Message' son avisos de rendimiento del GL por software (SwiftShader) del entorno de prueba, no de la app.
+page.on('console', (m) => { if (['error', 'warning'].includes(m.type()) && !m.text().includes('GL Driver Message')) problems.push(`${m.type()}: ${m.text()}`); });
 page.on('pageerror', (e) => problems.push('pageerror: ' + e));
 page.on('requestfailed', (r) => problems.push('requestfailed: ' + r.url()));
 page.on('response', (r) => { if (r.status() >= 400) problems.push(`HTTP ${r.status()}: ${r.url()}`); });
 await page.goto(`http://localhost:${port}/`);
-await page.waitForFunction(() => window.__nebulon && window.__nebulon.status === 'loaded', null, { timeout: 5000 });
-const state = await page.evaluate(() => ({ n: window.__nebulon, text: document.getElementById('status').textContent, v: window.Phaser && Phaser.VERSION }));
+await page.waitForFunction(() => window.__nebulon && window.__nebulon.status === 'ready', null, { timeout: 5000 });
+const state = await page.evaluate(() => {
+  const c = document.querySelector('#app canvas');
+  return { n: window.__nebulon, v: window.Phaser && Phaser.VERSION, canvas: c ? [c.width, c.height] : null };
+});
+const shot = await page.screenshot();
 await browser.close(); server.close();
 console.log(JSON.stringify({ state, problems }));
-const ok = problems.length === 0 && state.n.phaserLoaded && state.v === '4.2.1';
+const ok = problems.length === 0 && state.n.phaserLoaded && state.v === '4.2.1' && state.n.label === 'Phaser 4.2.1 · WebGL'
+  && state.canvas && state.canvas[0] > 0 && state.canvas[1] > 0 && shot.length > 1000;
 console.log(ok ? 'OK' : 'FALLA');
 process.exit(ok ? 0 : 1);

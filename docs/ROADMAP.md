@@ -32,7 +32,7 @@ Formato de cada tarea detallada: ID · Nombre · Objetivo · Dependencias · Arc
 - **Criterios**: `www/` se sirve localmente y carga sin errores en consola.
 - **Pruebas**: Playwright abre `www/`, lee consola, 0 errores. *(Requiere red para `npm install`: se ejecuta en CI o en tu entorno.)*
 
-### FND-004 · Phaser arranca en la página
+### FND-004 · Phaser arranca en la página — ✅ Implementada y probada (sesión 2)
 - **Objetivo**: un lienzo Phaser mínimo que muestra la versión (`Phaser.VERSION`) y renderer en uso.
 - **Dep.**: FND-003
 - **Archivos**: `src/main.js`, `src/boot/phaserBoot.js`.

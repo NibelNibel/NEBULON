@@ -13,11 +13,17 @@ Estados: Pendiente · En desarrollo · Implementada, sin verificar · Implementa
 | DOC-001 | Documentos iniciales (HANDOFF, ENGINE_AUDIT, ARCHITECTURE, ROADMAP, PROGRESS, KNOWN_ISSUES, TESTING) | Implementada, sin verificar (revisión humana pendiente) |
 | PLAN-001 | División del proyecto en tareas | Implementada, sin verificar (F0–F2 detalladas; F3+ en lista) |
 
+## Sesión 2 — 2026-11-13
+
+| ID | Tarea | Estado |
+|---|---|---|
+| FND-001 | Esqueleto del repositorio | **Implementada y probada** (26/26 pruebas; fallo verificado al quitar un directorio) |
+
 ## Producto
 
 | Fase | Estado |
 |---|---|
-| F0 Cimientos / APK mínimo | Pendiente (0/9) |
+| F0 Cimientos / APK mínimo | En desarrollo (1/9: FND-001) |
 | F1 Almacenamiento | Pendiente |
 | F2 Proyectos | Pendiente |
 | F3 Núcleo | Pendiente |

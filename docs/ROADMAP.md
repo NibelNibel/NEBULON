@@ -10,7 +10,7 @@ Formato de cada tarea detallada: ID · Nombre · Objetivo · Dependencias · Arc
 
 ## F0 — Cimientos y APK mínimo (prioridad: validar la cadena Capacitor cuanto antes)
 
-### FND-001 · Esqueleto del repositorio
+### FND-001 · Esqueleto del repositorio — ✅ Implementada y probada (sesión 2)
 - **Objetivo**: estructura de carpetas, `.gitignore`, `package.json` mínimo, `README` corto.
 - **Dep.**: —
 - **Archivos**: `package.json`, `README.md`, `.gitignore`, carpetas vacías con `.gitkeep`.

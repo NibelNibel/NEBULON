@@ -1,6 +1,6 @@
 # HANDOFF — Punto de entrada para cualquier IA que continúe NEBULON
 
-Última actualización: 2026-11-13 · Sesión 1 · Idioma de trabajo con el usuario: **español**.
+Última actualización: 2026-11-13 · Sesión 2 · Idioma de trabajo con el usuario: **español**.
 
 ## H. Instrucciones de incorporación (leer primero)
 1. Lee este archivo completo.
@@ -18,18 +18,25 @@
 - Arquitectura: ver `docs/ARCHITECTURE.md` (capas platform → storage → core → projects/viewport/runtime → editor → ui).
 
 ## B. Estado actual
-- **Implementado**: nada del producto. Repositorio Git inicial con documentación y `tools/audit/phaser-smoke.js`.
+- **Implementado**: solo el esqueleto (FND-001): carpetas, `package.json` sin dependencias, `README.md`, prueba de estructura. Ningún sistema del producto. Documentación y `tools/audit/phaser-smoke.js`.
 - **Incompleto**: —
 - **Pendiente**: todo (ver ROADMAP).
 - **Estado real**: fase de auditoría y planificación terminada; falta aprobación de decisiones D-002 y D-003 para arrancar F0.
 
 ## C. Progreso de tareas
-- Terminadas (documentales): AUD-001, AUD-002 (probadas); AUD-003, DOC-001, PLAN-001 (sin verificar por humano).
+- Terminadas: FND-001, AUD-001, AUD-002 (probadas); AUD-003, DOC-001, PLAN-001 (sin verificar por humano).
 - En desarrollo: ninguna.
-- Pendientes: F0 (FND-001…CI-004), F1…F8 (ver ROADMAP).
+- Pendientes: F0 (FND-002…CI-004), F1…F8 (ver ROADMAP).
 - Bloqueadas: AUD-004 (no se recibió el «bundle minificado existente»).
 
-## D. Última sesión (1)
+## D. Última sesión (2): FND-001
+- Implementado: esqueleto del repo. Archivos: `package.json` (type module, Node ≥22, scripts `build` —mensaje, sin implementar— y `test` = `node --test tests/unit/*.test.js`), `README.md`, `tests/unit/structure.test.js`, `.gitkeep` en carpetas vacías (`src/*`, `public`, `vendor/phaser`, `tests/browser`, `.github/workflows`).
+- Decisión: `android/` y `www/` no se crean (los generan CI-002 y FND-003). `public/` elegido (no `www/`) como carpeta de estáticos.
+- Nota técnica: en Node 22 `node --test <directorio>` falla; se usa glob `tests/unit/*.test.js`.
+- Pruebas: `npm test` 26/26 OK; comprobado que falla si falta una carpeta.
+
+## D-bis. Sesión 1
+(auditoría)
 - Implementado: extracción y auditoría del zip de Phaser; prueba de humo; investigación de Capacitor 8; plan de tareas; documentos; repositorio Git.
 - Archivos creados: `HANDOFF.md`, `docs/{ENGINE_AUDIT,ARCHITECTURE,ROADMAP,PROGRESS,KNOWN_ISSUES,TESTING}.md`, `tools/audit/phaser-smoke.js`, `tools/audit/phaser-4.2.1.sha256`, `.gitignore`.
 - Decisiones: propuestas D-001…D-008 (ver ARCHITECTURE §8), ninguna aprobada aún.
@@ -48,10 +55,9 @@ El zip original (SHA-256 `3381e1eb…139da`) es la copia intacta; **no está en 
 Ver `docs/KNOWN_ISSUES.md` (KI-001…KI-008). Decisiones pendientes: D-002 (Vite), D-003 (`appId`), D-008 (estrategia de almacenamiento Android, depende de prueba en teléfono).
 
 ## G. Próxima tarea
-- **Identificador**: FND-001 — Esqueleto del repositorio.
-- **Objetivo**: `package.json` mínimo, `README.md`, estructura de carpetas (ARCHITECTURE §3), scripts `build`/`test` triviales.
-- **Revisar antes**: `docs/ARCHITECTURE.md` §3, `docs/ROADMAP.md` (F0).
-- **Implementación esperada**: solo ficheros de estructura; sin lógica.
-- **Criterios**: `npm run test` sale con 0; árbol coincide con ARCHITECTURE §3.
-- **Pruebas**: ejecutar scripts; revisar árbol; registrar en TESTING.md.
-- **Bloqueo previo**: ninguno para FND-001/FND-002. FND-003 necesita que el usuario apruebe D-002; CI-001 necesita D-003.
+- **Identificador**: FND-002 — Vendorizar Phaser 4.2.1.
+- **Objetivo**: copiar `dist/phaser.min.js`, `LICENSE.md` y `types/` desde `third_party/phaser-4.2.1-src/` (si la sesión no lo conserva, re-extraer el zip original) a `vendor/phaser/4.2.1/`, con `vendor/phaser/CHECKSUMS.txt` y `tools/verify-vendor.js`.
+- **Revisar antes**: `docs/ENGINE_AUDIT.md` §1 y §4, `tools/audit/phaser-4.2.1.sha256`.
+- **Criterios**: el script verifica los SHA-256 del zip original; ningún fichero de Phaser modificado.
+- **Pruebas**: `node tools/verify-vendor.js` OK; alterar un byte → falla; añadir test en `tests/unit/`; registrar en TESTING.md.
+- **Bloqueo previo**: ninguno. FND-003 necesita aprobar D-002; CI-001 necesita D-003.

@@ -43,3 +43,22 @@ test('detecta fichero faltante', () => {
   assert.ok(verify(d).errors.some((e) => e.includes('falta LICENSE.md')));
   rmSync(d, { recursive: true });
 });
+
+import { copyVendor } from '../../tools/copy-vendor.js';
+import { readFileSync, mkdtempSync as mk } from 'node:fs';
+import { createHash } from 'node:crypto';
+
+test('copyVendor deja phaser.min.js idéntico al vendorizado', () => {
+  const dest = mk(join(tmpdir(), 'nebulon-copy-'));
+  const out = copyVendor(dest, root);
+  const h = (p) => createHash('sha256').update(readFileSync(p)).digest('hex');
+  assert.equal(h(out), h(join(root, 'vendor/phaser/4.2.1/phaser.min.js')));
+  rmSync(dest, { recursive: true });
+});
+
+test('copyVendor se niega a copiar si el vendor está alterado', () => {
+  const d = sandbox();
+  appendFileSync(join(d, 'vendor/phaser/4.2.1/phaser.min.js'), ' ');
+  assert.throws(() => copyVendor(join(d, 'out'), d), /no es copia fiel/);
+  rmSync(d, { recursive: true });
+});

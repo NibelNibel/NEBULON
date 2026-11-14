@@ -4,9 +4,16 @@
   "private": true,
   "description": "NEBULON: editor y motor de videojuegos 2D basado en Phaser 4.2.1 (navegador y Android con Capacitor 8).",
   "type": "module",
-  "engines": { "node": ">=22" },
+  "engines": { "node": ">=22.12" },
   "scripts": {
-    "build": "node -e \"console.log('build: sin implementar hasta FND-003 (no hay nada que compilar todavia)')\"",
-    "test": "node --test tests/unit/*.test.js"
+    "prepare:vendor": "node tools/copy-vendor.js public",
+    "dev": "npm run prepare:vendor && vite",
+    "build": "npm run prepare:vendor && vite build",
+    "preview": "vite preview",
+    "test": "node --test tests/unit/*.test.js",
+    "test:browser": "node tests/browser/static-smoke.mjs"
+  },
+  "devDependencies": {
+    "vite": "^7.0.0"
   }
 }

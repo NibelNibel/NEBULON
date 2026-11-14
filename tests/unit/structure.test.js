@@ -24,8 +24,8 @@ for (const f of files) {
     assert.ok(existsSync(join(root, f)) && statSync(join(root, f)).isFile());
   });
 }
-test('package.json no declara dependencias todavía', () => {
+test('package.json: única dependencia de desarrollo es vite (D-002) y ninguna de runtime', () => {
   const pkg = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8'));
   assert.equal(pkg.dependencies, undefined);
-  assert.equal(pkg.devDependencies, undefined);
+  assert.deepEqual(Object.keys(pkg.devDependencies), ['vite']);
 });

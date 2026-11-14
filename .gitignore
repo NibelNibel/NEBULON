@@ -5,3 +5,4 @@ www/
 android/build/
 *.apk
 .DS_Store
+public/vendor/

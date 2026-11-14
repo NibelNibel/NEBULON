@@ -10,5 +10,6 @@
 | KI-006 | Información | El `dist/phaser.js` sin minificar contiene comentarios JSDoc con «v3.60» heredados; son texto, no versión. `Phaser.VERSION` es 4.2.1 (verificado). | Cerrado (informativo) | — |
 | KI-007 | Compatibilidad | Capacitor 8 exige JDK 21 y Node ≥ 22; con target 36 el edge-to-edge es obligatorio (insets). | Abierto | Tratar en CI-002/CI-003 y UI-001 |
 | KI-008 | Compatibilidad | Phaser 4 usa contexto `webgl` (v1) con fallback Canvas. Rendimiento en WebView real sin medir. | Abierto — no verificado | Medir con APK de CI-003 |
+| KI-009 | Verificación | `vite build` y `npm install` no se han ejecutado nunca (sin red). Versión de Vite `^7.0.0` sin confirmar contra el registro; no existe `package-lock.json`, por lo que `npm ci` fallará: usar `npm install` y **commitear el lock generado**. La ruta `/vendor/phaser/phaser.min.js` con `base: './'` debe comprobarse en `www/index.html`. | Abierto | Primer `npm install && npm run build` en CI/PC del usuario |
 
-Decisiones pendientes: D-002, D-003, D-008 (ver ARCHITECTURE §8).
+Decisiones pendientes: D-003, D-008 (ver ARCHITECTURE §8).

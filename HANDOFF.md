@@ -24,12 +24,13 @@
 - **Estado real**: fase de auditoría y planificación terminada; falta aprobación de decisiones D-002 y D-003 para arrancar F0.
 
 ## C. Progreso de tareas
-- Terminadas: FND-001, FND-002, AUD-001, AUD-002 (probadas); AUD-003, DOC-001, PLAN-001 (sin verificar por humano).
+- Implementada sin verificar: FND-003. Terminadas: FND-001, FND-002, AUD-001, AUD-002 (probadas); AUD-003, DOC-001, PLAN-001 (sin verificar por humano).
 - En desarrollo: ninguna.
 - Pendientes: F0 (FND-003…CI-004), F1…F8 (ver ROADMAP).
 - Bloqueadas: AUD-004 (no se recibió el «bundle minificado existente»).
 
-## D. Última sesión (2): FND-001 y FND-002
+## D. Última sesión (2): FND-001, FND-002 y FND-003
+- FND-003 (D-002 aprobada por el usuario): `package.json` (devDependency `vite ^7.0.0`; scripts `dev`, `build`, `preview`, `test`, `test:browser`), `vite.config.js` (`base './'`, `outDir www`), `index.html`, `src/main.js`, `tools/copy-vendor.js` (verifica y copia Phaser a `public/vendor/`, gitignored), `tests/browser/static-smoke.mjs`. Probado: 32/32 unitarias; Chromium carga la página sin errores (sin Vite). **No probado: `vite build`** (KI-009).
 - FND-002: `vendor/phaser/4.2.1/{phaser.min.js,LICENSE.md,types/}` (9,1 MB, copia byte a byte), `vendor/phaser/CHECKSUMS.txt`, `tools/verify-vendor.js` (exporta `verify(root)`; CLI sale 1 si hay discrepancias), `tests/unit/vendor.test.js`. Pruebas: 30/30 OK, alteración detectada. No se tocó ningún fichero de Phaser. Solo se vendoriza el UMD completo (con Matter); la variante arcade-only queda como optimización futura.
 - FND-001:
 - Implementado: esqueleto del repo. Archivos: `package.json` (type module, Node ≥22, scripts `build` —mensaje, sin implementar— y `test` = `node --test tests/unit/*.test.js`), `README.md`, `tests/unit/structure.test.js`, `.gitkeep` en carpetas vacías (`src/*`, `public`, `vendor/phaser`, `tests/browser`, `.github/workflows`).
@@ -57,7 +58,6 @@ El zip original (SHA-256 `3381e1eb…139da`) es la copia intacta; **no está en 
 Ver `docs/KNOWN_ISSUES.md` (KI-001…KI-008). Decisiones pendientes: D-002 (Vite), D-003 (`appId`), D-008 (estrategia de almacenamiento Android, depende de prueba en teléfono).
 
 ## G. Próxima tarea
-- **Estado**: la secuencia F0 está **bloqueada por D-002** (FND-003 usa Vite; hace falta red para `npm install`, que esta sesión no tiene, así que se valida en CI o en la máquina del usuario).
-- **Opción A (si el usuario aprueba D-002)**: FND-003 — build web con Vite. Archivos: `vite.config.js`, `index.html`, `src/main.js`, `package.json`. Criterios: `npm run build` genera `www/` con Phaser copiado desde `vendor/`; Playwright abre `www/` sin errores de consola.
-- **Opción B (sin red ni aprobación; lógica pura)**: STO-001 — contrato `StorageBackend` y errores normalizados, en `src/storage/`, probado con `node --test`. La dependencia con FND-005 es solo nominal (no usa plataforma). Criterios: clases de error con `code` estable, JSDoc del contrato, pruebas de forma. Revisar `docs/ARCHITECTURE.md` §4.
-- Preguntar al usuario cuál de las dos antes de empezar.
+- **Condición previa para cerrar FND-003**: alguien con red ejecuta `npm install && npm run build` y comprueba que `www/index.html` referencia `./vendor/phaser/phaser.min.js` y que `www/vendor/phaser/phaser.min.js` existe; commitear `package-lock.json`. (Si el usuario no puede, se hará en el workflow de CI-003.)
+- **Siguiente tarea propuesta**: FND-004 — Phaser arranca en la página. Objetivo: un `Phaser.Game` mínimo (WebGL) que muestra «Phaser 4.2.1 · WebGL» y expone `window.__nebulon.status`. Archivos: `src/main.js`, `src/boot/phaserBoot.js`. Criterios: texto visible, sin errores. Pruebas: ampliar `tests/browser/static-smoke.mjs` (Chromium, sin Vite).
+- **D-003** (`appId`) debe resolverse antes de CI-001.

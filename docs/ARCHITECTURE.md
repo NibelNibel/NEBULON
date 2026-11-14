@@ -110,7 +110,7 @@ Un **conjunto de pruebas de contrato común** se ejecuta contra cada backend (Me
 | ID | Decisión | Estado |
 |---|---|---|
 | D-001 | Phaser como UMD `phaser.min.js` copiado a `vendor/`, no recompilado | Propuesta (por defecto) |
-| D-002 | Vite como bundler/dev-server (única herramienta de build añadida) | **Pide tu aprobación** |
+| D-002 | Vite como bundler/dev-server (única herramienta de build añadida) | **Aprobada** por el usuario (sesión 2) |
 | D-003 | `appId`: `app.nebulon.editor` | **Pide tu aprobación** (no se puede cambiar sin fricción tras publicar) |
 | D-004 | Carpeta `android/` generada por `cap add android` y **versionada en git** con parches reproducibles (script) | Propuesta |
 | D-005 | Permisos heredados con `maxSdkVersion` | Propuesta |

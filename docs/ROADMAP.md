@@ -25,7 +25,7 @@ Formato de cada tarea detallada: ID · Nombre · Objetivo · Dependencias · Arc
 - **Criterios**: el script verifica los hashes del zip original; ningún fichero de Phaser modificado.
 - **Pruebas**: `node tools/verify-vendor.js` OK; romper un byte → falla.
 
-### FND-003 · Build web con Vite (requiere D-002)
+### FND-003 · Build web con Vite — 🟡 Implementada, sin verificar (D-002 aprobada; falta ejecutar `vite build`)
 - **Objetivo**: `npm run build` produce `www/` con `index.html`, JS propio y `vendor/phaser`.
 - **Dep.**: FND-002, aprobación D-002
 - **Archivos**: `vite.config.js`, `index.html`, `src/main.js`, `package.json`.

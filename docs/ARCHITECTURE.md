@@ -67,7 +67,7 @@ nebulon/
 
 ## 4. API de almacenamiento (contrato)
 
-Todas las rutas son **relativas a la raíz de NEBULON** (`Nebulon/…` en Documents, o la carpeta elegida en navegador), con `/` como separador, sin `..`, sin rutas absolutas.
+Todas las rutas son **relativas a la raíz de NEBULON** (reglas exactas y rechazos en `src/storage/paths.js`; raíz = `''`; se normaliza a Unicode NFC; se rechazan `..`, `\\`, absolutas y los caracteres `< > : " | ? *`) (`Nebulon/…` en Documents, o la carpeta elegida en navegador), con `/` como separador, sin `..`, sin rutas absolutas.
 
 ```js
 interface StorageBackend {

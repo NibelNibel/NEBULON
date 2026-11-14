@@ -18,18 +18,19 @@
 - Arquitectura: ver `docs/ARCHITECTURE.md` (capas platform → storage → core → projects/viewport/runtime → editor → ui).
 
 ## B. Estado actual
-- **Implementado**: contrato de almacenamiento sin backends (STO-001), esqueleto (FND-001) y Phaser 4.2.1 vendorizado y verificable (FND-002): carpetas, `package.json` sin dependencias, `README.md`, prueba de estructura. Ningún sistema del producto. Documentación y `tools/audit/phaser-smoke.js`.
+- **Implementado**: contrato (STO-001) y rutas seguras (STO-002) de almacenamiento, sin backends, esqueleto (FND-001) y Phaser 4.2.1 vendorizado y verificable (FND-002): carpetas, `package.json` sin dependencias, `README.md`, prueba de estructura. Ningún sistema del producto. Documentación y `tools/audit/phaser-smoke.js`.
 - **Incompleto**: —
 - **Pendiente**: todo (ver ROADMAP).
 - **Estado real**: fase de auditoría y planificación terminada; falta aprobación de decisiones D-002 y D-003 para arrancar F0.
 
 ## C. Progreso de tareas
-- Implementada sin verificar: FND-003. Terminadas: FND-001, FND-002, FND-004, STO-001, AUD-001, AUD-002 (probadas); AUD-003, DOC-001, PLAN-001 (sin verificar por humano).
+- Implementada sin verificar: FND-003. Terminadas: FND-001, FND-002, FND-004, STO-001, STO-002, AUD-001, AUD-002 (probadas); AUD-003, DOC-001, PLAN-001 (sin verificar por humano).
 - En desarrollo: ninguna.
 - Pendientes: F0 (FND-003…CI-004), F1…F8 (ver ROADMAP).
 - Bloqueadas: AUD-004 (no se recibió el «bundle minificado existente»).
 
-## D. Última sesión (2): FND-001 a FND-004 y STO-001
+## D. Última sesión (2): FND-001 a FND-004, STO-001 y STO-002
+- STO-002: `src/storage/paths.js` (`normalize`, `join`, `split`, `parent`, `basename`, `extname`, `isDescendant`, `assertValidName`; constantes `MAX_SEGMENT_BYTES=255`, `MAX_PATH_BYTES=1024`) y `tests/unit/storage-paths.test.js`. Política: se **rechaza** (no se corrige) lo peligroso (`..`, absolutas, `\\`, control, reservados `<>:"|?*`, punto/espacio final). Raíz = `''`. Unicode NFC. Bug encontrado por las pruebas y corregido: `join` aceptaba partes absolutas. 58/58 OK.
 - STO-001: `src/storage/errors.js` (StorageError + 6 subclases, `ErrorCodes`, `isStorageError`), `src/storage/StorageBackend.js` (`BACKEND_METHODS`, clase base cuyas operaciones lanzan `UnsupportedError`, `missingBackendMethods`, semántica documentada en comentarios), `tests/unit/storage-contract.test.js`. 44/44 OK. Decisión: se tomó la «alternativa sin red» porque CI-001 sigue bloqueada (D-003 sin confirmar, sin red).
 - FND-004: `src/boot/phaserBoot.js` (Game AUTO, escena `boot`, texto con versión y renderer; usa el global `window.Phaser`), `src/main.js` publica `window.__nebulon` = `{status:'ready'|'error'|'loading', version, renderer, label}`. Probado en Chromium (T-FND-004). Se añadió `SIGUIENTE_PASO.md` (guía para el usuario) y se entregó un zip del proyecto.
 - FND-003 (D-002 aprobada por el usuario): `package.json` (devDependency `vite ^7.0.0`; scripts `dev`, `build`, `preview`, `test`, `test:browser`), `vite.config.js` (`base './'`, `outDir www`), `index.html`, `src/main.js`, `tools/copy-vendor.js` (verifica y copia Phaser a `public/vendor/`, gitignored), `tests/browser/static-smoke.mjs`. Probado: 32/32 unitarias; Chromium carga la página sin errores (sin Vite). **No probado: `vite build`** (KI-009).
@@ -61,5 +62,5 @@ Ver `docs/KNOWN_ISSUES.md` (KI-001…KI-008). Decisiones pendientes: D-002 (Vite
 
 ## G. Próxima tarea
 - **Pendiente de cierre (usuario)**: `npm install && npm run build` con red, comprobar `www/`, subir `package-lock.json` (KI-009). Ver `SIGUIENTE_PASO.md`.
-- **Siguiente tarea propuesta**: STO-002 — utilidades de rutas (`normalize`, `join`, `parent`, `basename`, validación anti `..`, rutas absolutas, caracteres inválidos, vacías) en `src/storage/paths.js`, lanzando `InvalidPathError`. Criterios: todos los casos de borde probados (incluye `\`, `//`, `./`, `a/../b`, nombres con espacios y Unicode). Pruebas: `node --test`.
-- Siguen disponibles sin red: STO-003 (MemoryBackend) y STO-004 (suite de contrato). **CI-001** sigue bloqueada por D-003 y red.
+- **Siguiente tarea propuesta**: STO-003 — `MemoryBackend` (solo pruebas) en `src/storage/MemoryBackend.js`, implementando las 10 operaciones del contrato con las semánticas de `StorageBackend.js` y usando `paths.js`. Criterios: árbol en memoria con ficheros (`Uint8Array`) y directorios, `mtime`, errores normalizados, `copy` de directorios, `rename` sin permitir mover un directorio dentro de sí mismo. Pruebas: `node --test` con casos propios; la suite de contrato reutilizable es STO-004 (después se hará pasar MemoryBackend por ella).
+- **CI-001** sigue bloqueada por D-003 y red.

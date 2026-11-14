@@ -83,7 +83,7 @@ Formato de cada tarea detallada: ID · Nombre · Objetivo · Dependencias · Arc
 | ID | Nombre | Dep. | Criterio principal |
 |---|---|---|---|
 | STO-001 | ✅ Contrato `StorageBackend` + errores normalizados (implementada y probada) | — (FND-005 era dependencia nominal) | Tipos/JSdoc + clases de error; test de forma |
-| STO-002 | Utilidades de rutas (`normalize`, `join`, `parent`, validación anti `..`) | STO-001 | 100% de casos de borde probados |
+| STO-002 | ✅ Utilidades de rutas (implementada y probada) | STO-001 | 100% de casos de borde probados |
 | STO-003 | `MemoryBackend` (solo pruebas) | STO-001,002 | Pasa la suite de contrato |
 | STO-004 | Suite de contrato reutilizable | STO-003 | Se ejecuta contra cualquier backend |
 | STO-005 | `FileOperations` (copia/borrado recursivo, escritura atómica) | STO-004 | Probado sobre Memory |

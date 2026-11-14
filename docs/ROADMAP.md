@@ -18,7 +18,7 @@ Formato de cada tarea detallada: ID · Nombre · Objetivo · Dependencias · Arc
 - **Criterios**: `npm run test` termina en 0; estructura coincide con ARCHITECTURE §3.
 - **Pruebas**: ejecutar scripts; revisar árbol.
 
-### FND-002 · Vendorizar Phaser 4.2.1
+### FND-002 · Vendorizar Phaser 4.2.1 — ✅ Implementada y probada (sesión 2)
 - **Objetivo**: copiar `dist/phaser.min.js`, `LICENSE.md`, `types/` a `vendor/phaser/4.2.1/` con SHA-256.
 - **Dep.**: FND-001
 - **Archivos**: `vendor/phaser/4.2.1/*`, `vendor/phaser/CHECKSUMS.txt`, `tools/verify-vendor.js`.

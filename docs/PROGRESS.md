@@ -18,12 +18,13 @@ Estados: Pendiente · En desarrollo · Implementada, sin verificar · Implementa
 | ID | Tarea | Estado |
 |---|---|---|
 | FND-001 | Esqueleto del repositorio | **Implementada y probada** (26/26 pruebas; fallo verificado al quitar un directorio) |
+| FND-002 | Vendorizar Phaser 4.2.1 | **Implementada y probada** (30/30 pruebas; copia byte a byte idéntica al original; detecta alteración, ficheros extra y faltantes) |
 
 ## Producto
 
 | Fase | Estado |
 |---|---|
-| F0 Cimientos / APK mínimo | En desarrollo (1/9: FND-001) |
+| F0 Cimientos / APK mínimo | En desarrollo (2/9: FND-001, FND-002) |
 | F1 Almacenamiento | Pendiente |
 | F2 Proyectos | Pendiente |
 | F3 Núcleo | Pendiente |

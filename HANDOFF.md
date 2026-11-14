@@ -18,18 +18,20 @@
 - Arquitectura: ver `docs/ARCHITECTURE.md` (capas platform → storage → core → projects/viewport/runtime → editor → ui).
 
 ## B. Estado actual
-- **Implementado**: solo el esqueleto (FND-001): carpetas, `package.json` sin dependencias, `README.md`, prueba de estructura. Ningún sistema del producto. Documentación y `tools/audit/phaser-smoke.js`.
+- **Implementado**: esqueleto (FND-001) y Phaser 4.2.1 vendorizado y verificable (FND-002): carpetas, `package.json` sin dependencias, `README.md`, prueba de estructura. Ningún sistema del producto. Documentación y `tools/audit/phaser-smoke.js`.
 - **Incompleto**: —
 - **Pendiente**: todo (ver ROADMAP).
 - **Estado real**: fase de auditoría y planificación terminada; falta aprobación de decisiones D-002 y D-003 para arrancar F0.
 
 ## C. Progreso de tareas
-- Terminadas: FND-001, AUD-001, AUD-002 (probadas); AUD-003, DOC-001, PLAN-001 (sin verificar por humano).
+- Terminadas: FND-001, FND-002, AUD-001, AUD-002 (probadas); AUD-003, DOC-001, PLAN-001 (sin verificar por humano).
 - En desarrollo: ninguna.
-- Pendientes: F0 (FND-002…CI-004), F1…F8 (ver ROADMAP).
+- Pendientes: F0 (FND-003…CI-004), F1…F8 (ver ROADMAP).
 - Bloqueadas: AUD-004 (no se recibió el «bundle minificado existente»).
 
-## D. Última sesión (2): FND-001
+## D. Última sesión (2): FND-001 y FND-002
+- FND-002: `vendor/phaser/4.2.1/{phaser.min.js,LICENSE.md,types/}` (9,1 MB, copia byte a byte), `vendor/phaser/CHECKSUMS.txt`, `tools/verify-vendor.js` (exporta `verify(root)`; CLI sale 1 si hay discrepancias), `tests/unit/vendor.test.js`. Pruebas: 30/30 OK, alteración detectada. No se tocó ningún fichero de Phaser. Solo se vendoriza el UMD completo (con Matter); la variante arcade-only queda como optimización futura.
+- FND-001:
 - Implementado: esqueleto del repo. Archivos: `package.json` (type module, Node ≥22, scripts `build` —mensaje, sin implementar— y `test` = `node --test tests/unit/*.test.js`), `README.md`, `tests/unit/structure.test.js`, `.gitkeep` en carpetas vacías (`src/*`, `public`, `vendor/phaser`, `tests/browser`, `.github/workflows`).
 - Decisión: `android/` y `www/` no se crean (los generan CI-002 y FND-003). `public/` elegido (no `www/`) como carpeta de estáticos.
 - Nota técnica: en Node 22 `node --test <directorio>` falla; se usa glob `tests/unit/*.test.js`.
@@ -55,9 +57,7 @@ El zip original (SHA-256 `3381e1eb…139da`) es la copia intacta; **no está en 
 Ver `docs/KNOWN_ISSUES.md` (KI-001…KI-008). Decisiones pendientes: D-002 (Vite), D-003 (`appId`), D-008 (estrategia de almacenamiento Android, depende de prueba en teléfono).
 
 ## G. Próxima tarea
-- **Identificador**: FND-002 — Vendorizar Phaser 4.2.1.
-- **Objetivo**: copiar `dist/phaser.min.js`, `LICENSE.md` y `types/` desde `third_party/phaser-4.2.1-src/` (si la sesión no lo conserva, re-extraer el zip original) a `vendor/phaser/4.2.1/`, con `vendor/phaser/CHECKSUMS.txt` y `tools/verify-vendor.js`.
-- **Revisar antes**: `docs/ENGINE_AUDIT.md` §1 y §4, `tools/audit/phaser-4.2.1.sha256`.
-- **Criterios**: el script verifica los SHA-256 del zip original; ningún fichero de Phaser modificado.
-- **Pruebas**: `node tools/verify-vendor.js` OK; alterar un byte → falla; añadir test en `tests/unit/`; registrar en TESTING.md.
-- **Bloqueo previo**: ninguno. FND-003 necesita aprobar D-002; CI-001 necesita D-003.
+- **Estado**: la secuencia F0 está **bloqueada por D-002** (FND-003 usa Vite; hace falta red para `npm install`, que esta sesión no tiene, así que se valida en CI o en la máquina del usuario).
+- **Opción A (si el usuario aprueba D-002)**: FND-003 — build web con Vite. Archivos: `vite.config.js`, `index.html`, `src/main.js`, `package.json`. Criterios: `npm run build` genera `www/` con Phaser copiado desde `vendor/`; Playwright abre `www/` sin errores de consola.
+- **Opción B (sin red ni aprobación; lógica pura)**: STO-001 — contrato `StorageBackend` y errores normalizados, en `src/storage/`, probado con `node --test`. La dependencia con FND-005 es solo nominal (no usa plataforma). Criterios: clases de error con `code` estable, JSDoc del contrato, pruebas de forma. Revisar `docs/ARCHITECTURE.md` §4.
+- Preguntar al usuario cuál de las dos antes de empezar.

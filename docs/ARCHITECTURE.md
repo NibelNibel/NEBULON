@@ -55,7 +55,7 @@ nebulon/
 │   ├── runtime/
 │   └── ui/
 ├── public/ (o www/)         # index.html, CSS, vendor/phaser copiado en build
-├── vendor/phaser/4.2.1/     # phaser.min.js + LICENSE + types + SHA-256 (copia fiel de dist/)
+├── vendor/phaser/4.2.1/     # phaser.min.js + LICENSE.md + types/ (copia fiel; hashes en vendor/phaser/CHECKSUMS.txt; verificar con tools/verify-vendor.js)
 ├── tests/                   # unit (Node), browser (Playwright)
 ├── tools/                   # auditoría, scripts de build/CI
 ├── android/                 # proyecto Capacitor (ver D-004); NO existe aún, se genera en CI-002

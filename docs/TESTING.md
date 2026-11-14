@@ -13,6 +13,7 @@
 | T-AUD-001 | 2026-11-13 | `phaser.min.js`, `phaser-arcade-physics.min.js`, `phaser.js` (4.2.1) arrancan en Chromium con WebGL, `Phaser.VERSION==='4.2.1'`, sin errores de página; Matter solo en bundle completo | `NODE_PATH=$(npm root -g) node tools/audit/phaser-smoke.js third_party/phaser-4.2.1-src` | **OK** (Chromium headless, GL por software SwiftShader) |
 | T-AUD-002 | 2026-11-13 | Android WebView real, Capacitor, Documents | — | **NO EJECUTADA** (sin dispositivo) |
 | T-FND-001 | 2026-11-13 | Estructura del repo según ARCHITECTURE §3 (26 comprobaciones) y ausencia de dependencias | `npm test` | **OK** 26/26; con `src/ui` retirado falla (exit≠0), restaurado vuelve a OK |
+| T-FND-002 | 2026-11-13 | `vendor/phaser/4.2.1` idéntico al original; el verificador detecta byte alterado, fichero extra y fichero faltante | `node tools/verify-vendor.js`; `npm test` (`tests/unit/vendor.test.js`); `cmp` contra `third_party/.../dist/phaser.min.js` | **OK** 30/30; alterado → exit 1; restaurado → exit 0 |
 | T-AUD-003 | 2026-11-13 | Tests propios de Phaser (`vitest`) | — | **NO EJECUTADA** (sin red para instalar dependencias; no es necesaria para integrar el dist) |
 
 ## Plantilla de prueba manual Android (se rellenará en CI-003/CI-004)

@@ -1,6 +1,6 @@
 # HANDOFF — Punto de entrada para cualquier IA que continúe NEBULON
 
-Última actualización: 2026-11-13 · Sesión 2 · Idioma de trabajo con el usuario: **español**.
+Última actualización: 2026-11-13 · Sesión 3 · Idioma de trabajo con el usuario: **español**.
 
 ## H. Instrucciones de incorporación (leer primero)
 1. Lee este archivo completo.
@@ -18,18 +18,22 @@
 - Arquitectura: ver `docs/ARCHITECTURE.md` (capas platform → storage → core → projects/viewport/runtime → editor → ui).
 
 ## B. Estado actual
-- **Implementado**: contrato (STO-001), rutas seguras (STO-002) y backend en memoria solo para pruebas (STO-003); no hay ningún backend que persista, esqueleto (FND-001) y Phaser 4.2.1 vendorizado y verificable (FND-002): carpetas, `package.json` sin dependencias, `README.md`, prueba de estructura. Ningún sistema del producto. Documentación y `tools/audit/phaser-smoke.js`.
+- **Implementado**: contrato (STO-001), rutas seguras (STO-002), backend en memoria solo para pruebas (STO-003) y suite de contrato reutilizable (STO-004, `tests/contract/`); no hay ningún backend que persista, esqueleto (FND-001) y Phaser 4.2.1 vendorizado y verificable (FND-002): carpetas, `package.json` sin dependencias, `README.md`, prueba de estructura. Ningún sistema del producto. Documentación y `tools/audit/phaser-smoke.js`.
 - **Incompleto**: —
 - **Pendiente**: todo (ver ROADMAP).
 - **Estado real**: fase de auditoría y planificación terminada; falta aprobación de decisiones D-002 y D-003 para arrancar F0.
 
 ## C. Progreso de tareas
-- Implementada sin verificar: FND-003. Terminadas: FND-001, FND-002, FND-004, STO-001, STO-002, STO-003, AUD-001, AUD-002 (probadas); AUD-003, DOC-001, PLAN-001 (sin verificar por humano).
+- Implementada sin verificar: FND-003. Terminadas: FND-001, FND-002, FND-004, STO-001, STO-002, STO-003, STO-004, AUD-001, AUD-002 (probadas); AUD-003, DOC-001, PLAN-001 (sin verificar por humano).
 - En desarrollo: ninguna.
 - Pendientes: F0 (FND-003…CI-004), F1…F8 (ver ROADMAP).
 - Bloqueadas: AUD-004 (no se recibió el «bundle minificado existente»).
 
-## D. Última sesión (2): FND-001 a FND-004 y STO-001 a STO-003
+## D. Última sesión (3): STO-004
+- STO-004: `tests/contract/storageContract.js` define el contrato como **datos**: `STORAGE_CONTRACT_CASES` (11 casos `{name, run({fresh, assert, rej})}`), `runStorageContractCases(createBackend, assert)` (devuelve resultados sin registrar pruebas; sirve para mutantes y para la futura pantalla de diagnóstico CI-004) y `runStorageContract(name, createBackend, {test, assert})` (registra los casos en el ejecutor que se le pase). **No importa nada de Node ni del DOM**; solo usa `assert.equal/deepEqual/ok/rejects`. Cada caso pide un backend nuevo con `fresh()` (= `createBackend()` + `initialize()`), así que un backend real debe poder crearse vacío por caso (para IDB/Android habrá que pasar una carpeta/BD única por caso). `tests/contract/browserAssert.js` es un mini-assert sin Node para el navegador. `tests/unit/storage-memory.test.js` quedó solo con lo propio de Memory (kind/`persistent:false`, mtime con reloj inyectado, instancias aisladas) y ejecuta la suite; no hay casos duplicados. `tests/unit/storage-contract-suite.test.js` prueba la propia suite: Memory pasa y 13 mutantes (backends rotos a propósito) fallan, cada uno en los casos esperados, más un backend base que falla todos. `tests/browser/contract-memory.mjs` ejecuta la suite en Chromium. **88/88** unitarias OK; navegador OK (11/11 casos). `npm run test:browser` ahora lanza las dos pruebas de navegador.
+- Observación: al hacer la suite, el test del mutante base fallaba «forma» en todos los mutantes por un error del arnés (`kind` distinto del de `initialize()`); corregido y comprobado listando los casos que falla cada mutante.
+
+## D-ter. Sesión 2: FND-001 a FND-004 y STO-001 a STO-003
 - STO-003: `src/storage/MemoryBackend.js` (reloj inyectable `{now}`; árbol de Map; copias de buffers) y `tests/unit/storage-memory.test.js`. Decisiones de contrato fijadas (también en `StorageBackend.js`): `rename/copy` NO crean el directorio padre del destino (NotFound); destino existente ⇒ AlreadyExists; mover/copiar dentro de sí mismo o la raíz ⇒ InvalidPath; `delete` de directorio no vacío sin `recursive` ⇒ IoError; `writeFile` sí crea padres; `readFile` de bytes no UTF-8 en 'utf8' ⇒ IoError. 71/71 OK.
 - STO-002: `src/storage/paths.js` (`normalize`, `join`, `split`, `parent`, `basename`, `extname`, `isDescendant`, `assertValidName`; constantes `MAX_SEGMENT_BYTES=255`, `MAX_PATH_BYTES=1024`) y `tests/unit/storage-paths.test.js`. Política: se **rechaza** (no se corrige) lo peligroso (`..`, absolutas, `\\`, control, reservados `<>:"|?*`, punto/espacio final). Raíz = `''`. Unicode NFC. Bug encontrado por las pruebas y corregido: `join` aceptaba partes absolutas. 58/58 OK.
 - STO-001: `src/storage/errors.js` (StorageError + 6 subclases, `ErrorCodes`, `isStorageError`), `src/storage/StorageBackend.js` (`BACKEND_METHODS`, clase base cuyas operaciones lanzan `UnsupportedError`, `missingBackendMethods`, semántica documentada en comentarios), `tests/unit/storage-contract.test.js`. 44/44 OK. Decisión: se tomó la «alternativa sin red» porque CI-001 sigue bloqueada (D-003 sin confirmar, sin red).
@@ -63,5 +67,5 @@ Ver `docs/KNOWN_ISSUES.md` (KI-001…KI-008). Decisiones pendientes: D-002 (Vite
 
 ## G. Próxima tarea
 - **Pendiente de cierre (usuario)**: `npm install && npm run build` con red, comprobar `www/`, subir `package-lock.json` (KI-009). Ver `SIGUIENTE_PASO.md`.
-- **Siguiente tarea propuesta**: STO-004 — suite de contrato reutilizable. Mover/generalizar las comprobaciones de `tests/unit/storage-memory.test.js` a `tests/contract/storageContract.js` (función `runStorageContract(name, createBackend)` que registra las pruebas con `node:test`), y hacer que `MemoryBackend` la pase. Debe ser importable desde Playwright/navegador más adelante (sin dependencias de Node en la lógica de las aserciones salvo `node:assert`, que se abstraerá). Criterios: Memory pasa; un backend roto a propósito (mutante) la falla; sin duplicar casos entre el test de Memory y la suite.
+- **Siguiente tarea propuesta (requiere autorización del usuario)**: STO-005 — `FileOperations` (`src/storage/FileOperations.js`): utilidades **sobre cualquier `StorageBackend`** (solo vía el contrato): copia recursiva, borrado recursivo seguro, `writeFileAtomic(backend, path, data)` (escribir a un temporal hermano + `rename`; como `rename` NO pisa el destino, hay que borrar el destino antes y decidir/documentar la ventana de fallo y la recuperación del temporal huérfano), y comprobar que no dejan restos si fallan. Criterios: probado sobre `MemoryBackend` y sobre un backend que falla a mitad (inyección de fallos); no importa Capacitor. Ojo: la atomicidad real dependerá del backend (KI nuevo si procede).
 - **CI-001** sigue bloqueada por D-003 y red.

@@ -1,11 +1,11 @@
 # NEBULON — Qué sigue (guía para ti)
 
-Fecha: 2026-11-13 (actualizado tras STO-003). Este archivo es para la persona; el resumen para cualquier IA es `HANDOFF.md`.
+Fecha: 2026-11-13 (actualizado tras STO-004). Este archivo es para la persona; el resumen para cualquier IA es `HANDOFF.md`.
 
 ## Dónde estamos
 - Hecho y probado: estructura del repo, Phaser 4.2.1 vendorizado con verificación de integridad, y una página que arranca Phaser en Chromium mostrando «Phaser 4.2.1 · WebGL» (`npm test` y `npm run test:browser`).
 - Hecho pero **sin verificar**: el build con Vite (`npm run build`). No pude ejecutarlo porque mi entorno no tiene red.
-- Hecho y probado también: el **contrato de almacenamiento** (`src/storage/`: errores normalizados, operaciones que deberán cumplir todos los backends y utilidades de rutas seguras y un backend en memoria solo para pruebas; ningún backend guarda en disco todavía). Aún no hay ningún backend real.
+- Hecho y probado también: el **contrato de almacenamiento** (`src/storage/`: errores normalizados, operaciones que deberán cumplir todos los backends, utilidades de rutas seguras y un backend en memoria solo para pruebas) y su **suite de pruebas reutilizable** (`tests/contract/`, se ejecuta en Node y en Chromium; cualquier backend futuro tendrá que pasarla). Ningún backend guarda en disco todavía; aún no hay ningún backend real.
 - No existe todavía: editor, almacenamiento, proyectos, Capacitor, APK. Nada de eso está simulado.
 
 ## Lo que necesito de ti (cuando puedas)
@@ -27,7 +27,8 @@ Fecha: 2026-11-13 (actualizado tras STO-003). Este archivo es para la persona; e
 | 2 | CI-002 | Carpeta `android/` con permisos y ajustes para SDK 36 |
 | 3 | CI-003 | Workflow de GitHub Actions que genera el APK de depuración |
 | 4 | CI-004 | Pantalla de **diagnóstico de almacenamiento**: prueba de verdad crear/leer/borrar en `Documents/Nebulon/` en tu teléfono |
-| ahora | STO-004 → STO-005 | Suite de contrato reutilizable y utilidades de copia/borrado/escritura atómica (no necesitan red; es lo que haré mientras CI-001 espera tu confirmación) |
+| hecha | STO-004 | Suite de contrato reutilizable |
+| siguiente | STO-005 | Utilidades de copia/borrado y escritura atómica sobre cualquier backend (no necesita red; requiere que me digas «adelante») |
 | 5 | STO-006… | Backends reales: IndexedDB, carpeta del navegador, Android |
 
 **La tarea más importante para ti es CI-004.** En Android 11+ la carpeta pública `Documents` solo es accesible a lo que la propia app creó; puede que haya que usar otro mecanismo (Storage Access Framework). Tu prueba en el teléfono decide eso (KI-001/002/003 en `docs/KNOWN_ISSUES.md`).
@@ -38,4 +39,4 @@ Adjunta este zip (y, si quieres compararlo, el zip original de Phaser) y escribe
 
 ## Notas
 - El zip no incluye el código fuente completo de Phaser (71 MB, carpeta `third_party/`, ignorada por Git). La copia necesaria para ejecutar está en `vendor/phaser/4.2.1/`. Conserva tu zip original de Phaser.
-- Las pruebas de navegador usan Playwright: `NODE_PATH=$(npm root -g) npm run test:browser` en mi entorno; en el tuyo hará falta instalar Playwright (aún no es dependencia del proyecto).
+- Las pruebas de navegador (`npm run test:browser`, ahora dos: la página con Phaser y la suite de contrato en Chromium) usan Playwright: `NODE_PATH=$(npm root -g) npm run test:browser` en mi entorno; en el tuyo hará falta instalar Playwright (aún no es dependencia del proyecto). `npm test` (88 pruebas) no necesita nada extra.

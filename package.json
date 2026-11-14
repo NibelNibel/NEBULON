@@ -11,7 +11,7 @@
     "build": "npm run prepare:vendor && vite build",
     "preview": "vite preview",
     "test": "node --test tests/unit/*.test.js",
-    "test:browser": "node tests/browser/static-smoke.mjs"
+    "test:browser": "node tests/browser/static-smoke.mjs && node tests/browser/contract-memory.mjs"
   },
   "devDependencies": {
     "vite": "^7.0.0"
